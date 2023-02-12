@@ -3,7 +3,7 @@ import {
   GET_USERS_FETCH,
   GET_USERS_SUCCESS,
   SEARCH_ACTION_TYPES,
-} from "./actions";
+} from "./store/search/search.action";
 
 const usersFetch = () => {
   return fetch("https://jsonplaceholder.typicode.com/users").then((response) =>
@@ -13,7 +13,7 @@ const usersFetch = () => {
 
 // function* setSearchInput({ payload: address }) {
 //   // const users = yield call(usersFetch);
-//   yield put({ type: SEARCH_ACTION_TYPES.SET_CURRENT_SEARCH, address });
+//   yield put({ type: SEARCH_ACTION_TYPES.SET_SEARCH_HISTORY, address });
 // }
 
 function* workGetUsersFetch() {
