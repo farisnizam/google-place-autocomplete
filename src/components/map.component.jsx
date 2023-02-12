@@ -18,7 +18,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-export default function Places() {
+const Places = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBiapQKnqFLYe1m3gID36ZXISop2sXh52w",
     libraries: ["places"],
@@ -26,13 +26,13 @@ export default function Places() {
 
   if (!isLoaded) return <div>Loading...</div>;
   return <Map />;
-}
+};
 
-function Map() {
-  const center = useMemo(() => ({ lat: 4.210484, lng: 101.975766 }), []);
+const Map = () => {
+  const center = { lat: 4.210484, lng: 101.975766 };
   const [selected, setSelected] = useState(null);
   const [zoom, setZoom] = useState(8);
-  const [focus, setFocus] = useState({ lat: 4.210484, lng: 101.975766 });
+  const [focus, setFocus] = useState(center);
 
   console.log("selected: ", selected);
 
@@ -58,7 +58,7 @@ function Map() {
       </GoogleMap>
     </>
   );
-}
+};
 
 const PlacesAutocomplete = ({ setSelected }) => {
   const {
@@ -102,3 +102,5 @@ const PlacesAutocomplete = ({ setSelected }) => {
     </Combobox>
   );
 };
+
+export default Places;
