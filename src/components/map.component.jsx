@@ -90,21 +90,13 @@ const PlacesAutocomplete = ({ setSelected }) => {
     { description: "12 Angry Men", year: 1957 },
   ];
 
-  const top100Films2 = [
-    "The Shawshank Redemption",
-    "The Godfather",
-    "The Godfather: Part II",
-    "The Dark Knight",
-    "12 Angry Men",
-  ];
-
   const [option, setOption] = useState(top100Films);
 
-  console.log("USERS: ", users);
-  console.log("ALL: ", all);
+  // console.log("USERS: ", users);
+  // console.log("ALL: ", all);
 
   const handleSelect = async (address) => {
-    console.log("address SINI", address);
+    // console.log("address SINI", address);
     dispatch(getUsersFetch());
     dispatch(getSearch(address));
 
@@ -117,21 +109,8 @@ const PlacesAutocomplete = ({ setSelected }) => {
     setSelected({ lat, lng });
   };
 
-  // console.log("top100Films", top100Films);
   console.log("data >>", data);
   console.log("option >>", option);
-
-  const options = ["Option 1", "Option 2"];
-
-  const [value2, setValue2] = useState(options[0]);
-  const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    if (data) {
-      console.log("option", value);
-      setOption(data);
-    }
-  }, [data]);
 
   console.log("value", value);
   return (
@@ -142,7 +121,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
         }}
         disablePortal
         id="combo-box-demo"
-        options={data}
+        options={data.length > 0 ? data : top100Films}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
         renderInput={(params) => (
@@ -156,24 +135,6 @@ const PlacesAutocomplete = ({ setSelected }) => {
           />
         )}
       />
-      {/* 
-      <Combobox onSelect={handleSelect}>
-        <ComboboxInput
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          disabled={!ready}
-          className="combobox-input"
-          placeholder="Search an address"
-        />
-        <ComboboxPopover>
-          <ComboboxList>
-            {status === "OK" &&
-              data.map(({ place_id, description }) => (
-                <ComboboxOption key={place_id} value={description} />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox> */}
     </div>
   );
 };
