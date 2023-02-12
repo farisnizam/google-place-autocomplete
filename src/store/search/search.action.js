@@ -8,9 +8,6 @@ export const SEARCH_ACTION_TYPES = {
 };
 
 export const getUsersFetch = () => createAction(GET_USERS_FETCH);
-// export const getUsersFetch = () => ({
-//   type: GET_USERS_FETCH,
-// });
 
 export const getSearch = (address) =>
   createAction(SEARCH_ACTION_TYPES.SET_SEARCH_HISTORY, address);

@@ -35,8 +35,6 @@ const Map = () => {
   const [zoom, setZoom] = useState(8);
   const [focus, setFocus] = useState(center);
 
-  // console.log("selected: ", selected);
-
   useEffect(() => {
     if (selected) {
       setZoom(15);
@@ -71,27 +69,14 @@ const PlacesAutocomplete = ({ setSelected }) => {
   } = usePlacesAutocomplete();
 
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.myFirstReducer.users);
-  const all = useSelector((state) => state.myFirstReducer.address);
-
-  const top100Films = [
-    { description: "The Shawshank Redemption", year: 1994 },
-    { description: "The Godfather", year: 1972 },
-    { description: "The Godfather: Part II", year: 1974 },
-    { description: "The Dark Knight", year: 2008 },
-    { description: "12 Angry Men", year: 1957 },
-  ];
-
-  const [option, setOption] = useState(top100Films);
+  const searchHistory = useSelector((state) => state.searchReducer.address);
 
   // console.log("USERS: ", users);
-  console.log("ALL: ", all);
+  console.log("search History: ", searchHistory);
 
   const handleSelect = async (address) => {
-    console.log("address SINI", address);
-    dispatch(getUsersFetch());
+    // console.log("address SINI", address);
     dispatch(getSearch(address));
-
     setValue(address, false);
 
     clearSuggestions();
@@ -101,10 +86,10 @@ const PlacesAutocomplete = ({ setSelected }) => {
     setSelected({ lat, lng });
   };
 
-  console.log("data >>", data);
-  console.log("option >>", option);
+  // console.log("data >>", data);
+  // console.log("option >>", option);
 
-  console.log("value", value);
+  // console.log("value", value);
   return (
     <div style={{ marginTop: "100px", background: "#FFF" }}>
       <Autocomplete
@@ -113,18 +98,16 @@ const PlacesAutocomplete = ({ setSelected }) => {
         }}
         disablePortal
         id="combo-box-demo"
-        options={data.length > 0 ? data : all}
+        options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
         renderInput={(params) => (
           <TextField
             onChange={(e) => {
-              // handleSelect(e.target.value);
               setValue(e.target.value);
             }}
             {...params}
             placeholder="Search Google Maps"
-            // label="Search Google Maps"
           />
         )}
       />

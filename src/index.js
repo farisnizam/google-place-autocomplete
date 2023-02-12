@@ -4,31 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { combineReducers, createStore, applyMiddleware } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { persistStore, persistReducer } from "redux-persist";
-import myFirstReducer from "./store/search/search.reducer";
-import mySaga from "./store/search/search.saga";
-import storage from "redux-persist/lib/storage";
+import { store, persistor } from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-const sagaMiddleware = createSagaMiddleware();
-const rootReducer = combineReducers({ myFirstReducer });
-
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
-
-const store = createStore(persistedReducer, applyMiddleware(sagaMiddleware));
-const persistor = persistStore(store);
-
-sagaMiddleware.run(mySaga);
 
 root.render(
   <React.StrictMode>

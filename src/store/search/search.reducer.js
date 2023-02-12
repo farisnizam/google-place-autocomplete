@@ -1,8 +1,11 @@
-import { GET_USERS_SUCCESS, SEARCH_ACTION_TYPES } from "./search.action";
-const myFirstReducer = (state = { users: [], address: [{}] }, action) => {
+import {
+  // GET_USERS_SUCCESS,
+  SEARCH_ACTION_TYPES,
+} from "./search.action";
+const searchReducer = (state = { users: [], address: [{}] }, action) => {
   switch (action.type) {
-    case GET_USERS_SUCCESS:
-      return { ...state, users: action.users };
+    // case GET_USERS_SUCCESS:
+    //   return { ...state, users: action.users };
     case SEARCH_ACTION_TYPES.SET_SEARCH_HISTORY:
       return {
         ...state,
@@ -13,4 +16,4 @@ const myFirstReducer = (state = { users: [], address: [{}] }, action) => {
   }
 };
 
-export default myFirstReducer;
+export default searchReducer;
