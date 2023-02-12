@@ -17,7 +17,9 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersFetch, getSearch } from "../store/search/search.action";
+import { selectSearchHistory } from "../store/search/search.selector";
+import { getSearch, resetSearch } from "../store/search/search.action";
+import { Button } from "@mui/material";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
@@ -69,35 +71,39 @@ const PlacesAutocomplete = ({ setSelected }) => {
   } = usePlacesAutocomplete();
 
   const dispatch = useDispatch();
-  const searchHistory = useSelector((state) => state.searchReducer.address);
+  const searchHistory = useSelector(selectSearchHistory);
 
   // console.log("USERS: ", users);
-  console.log("search History: ", searchHistory);
+  // console.log("search History: ", searchHistory);
 
   const handleSelect = async (address) => {
     // console.log("address SINI", address);
     dispatch(getSearch(address));
     setValue(address, false);
-
     clearSuggestions();
-
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat, lng });
+  };
+
+  const handleReset = () => {
+    dispatch(resetSearch());
   };
 
   // console.log("data >>", data);
   // console.log("option >>", option);
 
   // console.log("value", value);
+
   return (
-    <div style={{ marginTop: "100px", background: "#FFF" }}>
+    <div
+      style={{ marginTop: "60px", background: "#FFF", display: "inline-flex" }}
+    >
       <Autocomplete
         onChange={(event, newValue) => {
           handleSelect(newValue.description);
         }}
         disablePortal
-        id="combo-box-demo"
         options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
@@ -111,6 +117,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
           />
         )}
       />
+      <Button onClick={handleReset}>RESET</Button>
     </div>
   );
 };
