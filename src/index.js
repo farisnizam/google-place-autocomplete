@@ -8,7 +8,7 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { persistStore, persistReducer } from "redux-persist";
 import myFirstReducer from "./store/search/search.reducer";
-import mySaga from "./sagas";
+import mySaga from "./store/search/search.saga";
 import storage from "redux-persist/lib/storage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

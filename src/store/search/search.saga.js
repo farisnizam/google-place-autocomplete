@@ -3,7 +3,7 @@ import {
   GET_USERS_FETCH,
   GET_USERS_SUCCESS,
   SEARCH_ACTION_TYPES,
-} from "./store/search/search.action";
+} from "./search.action";
 
 const usersFetch = () => {
   return fetch("https://jsonplaceholder.typicode.com/users").then((response) =>
