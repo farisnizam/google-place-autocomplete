@@ -1,17 +1,9 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
 
 // import Box from "@mui/material/Box";
 // import TextField from "@mui/material/TextField";
@@ -25,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersFetch, getSearch } from "../actions";
+import { getUsersFetch, getSearch } from "../store/search/search.action";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
@@ -96,7 +88,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
   console.log("ALL: ", all);
 
   const handleSelect = async (address) => {
-    // console.log("address SINI", address);
+    console.log("address SINI", address);
     dispatch(getUsersFetch());
     dispatch(getSearch(address));
 

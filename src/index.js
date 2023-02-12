@@ -6,11 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
-import myFirstReducer from "./reducers";
+import { persistStore, persistReducer } from "redux-persist";
+import myFirstReducer from "./store/search/search.reducer";
 import mySaga from "./sagas";
 import storage from "redux-persist/lib/storage";
-
-import { persistStore, persistReducer } from "redux-persist";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
