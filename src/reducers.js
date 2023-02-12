@@ -4,7 +4,10 @@ const myFirstReducer = (state = { users: [], address: [{}] }, action) => {
     case GET_USERS_SUCCESS:
       return { ...state, users: action.users };
     case SEARCH_ACTION_TYPES.SET_CURRENT_SEARCH:
-      return { ...state, address: [{ label: action.payload }] };
+      return {
+        ...state,
+        address: [...state.address, { description: action.payload }],
+      };
     default:
       return state;
   }

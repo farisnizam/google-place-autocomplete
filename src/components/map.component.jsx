@@ -93,7 +93,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
   const [option, setOption] = useState(top100Films);
 
   // console.log("USERS: ", users);
-  // console.log("ALL: ", all);
+  console.log("ALL: ", all);
 
   const handleSelect = async (address) => {
     // console.log("address SINI", address);
@@ -121,7 +121,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
         }}
         disablePortal
         id="combo-box-demo"
-        options={data.length > 0 ? data : top100Films}
+        options={data.length > 0 ? data : all}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
         renderInput={(params) => (
