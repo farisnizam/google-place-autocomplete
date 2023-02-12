@@ -1,0 +1,3 @@
+export const SEARCH_ACTION_TYPES = {
+  SET_CURRENT_SEARCH: "search/SET_CURRENT_SEARCH",
+};
