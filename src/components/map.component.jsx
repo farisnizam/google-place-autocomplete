@@ -131,7 +131,8 @@ const PlacesAutocomplete = ({ setSelected }) => {
               setValue(e.target.value);
             }}
             {...params}
-            label="Movie"
+            placeholder="Search Google Maps"
+            // label="Search Google Maps"
           />
         )}
       />
