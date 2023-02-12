@@ -90,10 +90,18 @@ const PlacesAutocomplete = ({ setSelected }) => {
     { description: "12 Angry Men", year: 1957 },
   ];
 
+  const top100Films2 = [
+    "The Shawshank Redemption",
+    "The Godfather",
+    "The Godfather: Part II",
+    "The Dark Knight",
+    "12 Angry Men",
+  ];
+
   const [option, setOption] = useState(top100Films);
 
-  // console.log("USERS: ", users);
-  // console.log("ALL: ", all);
+  console.log("USERS: ", users);
+  console.log("ALL: ", all);
 
   const handleSelect = async (address) => {
     console.log("address SINI", address);
@@ -113,17 +121,28 @@ const PlacesAutocomplete = ({ setSelected }) => {
   console.log("data >>", data);
   console.log("option >>", option);
 
+  const options = ["Option 1", "Option 2"];
+
+  const [value2, setValue2] = useState(options[0]);
+  const [inputValue, setInputValue] = useState("");
+
   useEffect(() => {
     if (data) {
+      console.log("option", value);
       setOption(data);
     }
   }, [data]);
+
+  console.log("value", value);
   return (
-    <>
-      {/* <Autocomplete
+    <div style={{ marginTop: "100px", background: "#FFF" }}>
+      <Autocomplete
+        onChange={(event, newValue) => {
+          handleSelect(newValue.description);
+        }}
         disablePortal
         id="combo-box-demo"
-        options={option}
+        options={data}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
         renderInput={(params) => (
@@ -136,76 +155,9 @@ const PlacesAutocomplete = ({ setSelected }) => {
             label="Movie"
           />
         )}
-      /> */}
-
-      {/* <Autocomplete
-        id="google-map-demo"
-        sx={{ width: 300 }}
-        getOptionLabel={(option) =>
-          typeof option === "string" ? option : option.description
-        }
-        filterOptions={(x) => x}
-        options={options}
-        autoComplete
-        includeInputInList
-        filterSelectedOptions
-        value={value}
-        noOptionsText="No locations"
-        onChange={(event: any, newValue: PlaceType | null) => {
-          setOptions(newValue ? [newValue, ...options] : options);
-          setValue(newValue);
-        }}
-        onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
-        }}
-        renderInput={(params) => (
-          <TextField {...params} label="Add a location" fullWidth />
-        )}
-        renderOption={(props, option) => {
-          const matches =
-            option.structured_formatting.main_text_matched_substrings || [];
-
-          const parts = parse(
-            option.structured_formatting.main_text,
-            matches.map((match: any) => [
-              match.offset,
-              match.offset + match.length,
-            ])
-          );
-
-          return (
-            <li {...props}>
-              <Grid container alignItems="center">
-                <Grid item sx={{ display: "flex", width: 44 }}>
-                  <LocationOnIcon sx={{ color: "text.secondary" }} />
-                </Grid>
-                <Grid
-                  item
-                  sx={{ width: "calc(100% - 44px)", wordWrap: "break-word" }}
-                >
-                  {parts.map((part, index) => (
-                    <Box
-                      key={index}
-                      component="span"
-                      sx={{ fontWeight: part.highlight ? "bold" : "regular" }}
-                    >
-                      {part.text}
-                    </Box>
-                  ))}
-                  <Typography variant="body2" color="text.secondary">
-                    {option.structured_formatting.secondary_text}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </li>
-          );
-        }}
-      /> */}
-
+      />
+      {/* 
       <Combobox onSelect={handleSelect}>
-        {/* <Autocomplete>
-        <input type="text" placeholder="Origin" />
-      </Autocomplete> */}
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -221,8 +173,8 @@ const PlacesAutocomplete = ({ setSelected }) => {
               ))}
           </ComboboxList>
         </ComboboxPopover>
-      </Combobox>
-    </>
+      </Combobox> */}
+    </div>
   );
 };
 
