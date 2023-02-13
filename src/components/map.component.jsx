@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Autocomplete,
   TextField,
-  IconButton,
+  Button,
 } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
@@ -55,9 +55,7 @@ const Map = () => {
 
   return (
     <>
-      <div className="places-container">
-        <PlacesAutocomplete setSelected={setSelected} />
-      </div>
+      <PlacesAutocomplete setSelected={setSelected} />
 
       <GoogleMap
         zoom={zoom}
@@ -97,16 +95,14 @@ const PlacesAutocomplete = ({ setSelected }) => {
   };
 
   return (
-    <div
-      style={{ marginTop: "60px", background: "#FFF", display: "inline-flex" }}
-    >
+    <div className="places-container">
       <Autocomplete
         forcePopupIcon={false}
         onChange={handleSelect}
         disablePortal
         options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
-        sx={{ width: 300 }}
+        sx={{ width: 300, borderRadius: "0" }}
         inputValue={value}
         renderInput={(params) => (
           <TextField
@@ -119,9 +115,9 @@ const PlacesAutocomplete = ({ setSelected }) => {
         )}
         disableClearable
       />
-      <IconButton onClick={handleReset}>
+      <Button onClick={handleReset}>
         <RestartAltIcon />
-      </IconButton>
+      </Button>
     </div>
   );
 };
