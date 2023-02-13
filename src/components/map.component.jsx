@@ -11,9 +11,12 @@ import {
   CircularProgress,
   Autocomplete,
   TextField,
+  Box,
   Button,
 } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
@@ -102,8 +105,22 @@ const PlacesAutocomplete = ({ setSelected }) => {
         disablePortal
         options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
-        sx={{ width: 300, borderRadius: "0" }}
         inputValue={value}
+        sx={{ width: 300 }}
+        renderOption={(props, option) => (
+          <Box
+            component="li"
+            {...props}
+            sx={{ color: "black", display: "inline-flex" }}
+          >
+            {data.length > 0 ? (
+              <LocationOnIcon sx={{ color: "text.secondary" }} />
+            ) : (
+              <AccessTimeIcon sx={{ color: "text.secondary" }} />
+            )}
+            <span style={{ paddingLeft: "15px" }}>{option.description}</span>
+          </Box>
+        )}
         renderInput={(params) => (
           <TextField
             onChange={(e) => {
