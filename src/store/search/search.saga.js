@@ -16,8 +16,8 @@ function* workGetUsersFetch() {
   yield put({ type: GET_USERS_SUCCESS, users });
 }
 
-function* mySaga() {
+function* searchSaga() {
   yield takeEvery(GET_USERS_FETCH, workGetUsersFetch);
 }
 
-export default mySaga;
+export default searchSaga;

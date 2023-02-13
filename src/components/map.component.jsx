@@ -5,14 +5,6 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-// import Box from "@mui/material/Box";
-// import TextField from "@mui/material/TextField";
-// import Autocomplete from "@mui/material/Autocomplete";
-// import LocationOnIcon from "@mui/icons-material/LocationOn";
-// import Grid from "@mui/material/Grid";
-// import Typography from "@mui/material/Typography";
-// import parse from "autosuggest-highlight/parse";
-
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -20,14 +12,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSearchHistory } from "../store/search/search.selector";
 import { getSearch, resetSearch } from "../store/search/search.action";
 import { Button } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBiapQKnqFLYe1m3gID36ZXISop2sXh52w",
     libraries: ["places"],
   });
+  const indicatorSize = 50;
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) {
+    return (
+      <CircularProgress
+        size={indicatorSize}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          marginTop: `${-indicatorSize / 2}px`,
+          marginLeft: `${-indicatorSize / 2}px`,
+        }}
+      />
+    );
+  }
+
   return <Map />;
 };
 
@@ -73,11 +81,8 @@ const PlacesAutocomplete = ({ setSelected }) => {
   const dispatch = useDispatch();
   const searchHistory = useSelector(selectSearchHistory);
 
-  // console.log("USERS: ", users);
-  // console.log("search History: ", searchHistory);
-
-  const handleSelect = async (address) => {
-    // console.log("address SINI", address);
+  const handleSelect = async (event, value) => {
+    const address = value.description;
     dispatch(getSearch(address));
     setValue(address, false);
     clearSuggestions();
@@ -90,23 +95,18 @@ const PlacesAutocomplete = ({ setSelected }) => {
     dispatch(resetSearch());
   };
 
-  // console.log("data >>", data);
-  // console.log("option >>", option);
-
-  // console.log("value", value);
-
   return (
     <div
       style={{ marginTop: "60px", background: "#FFF", display: "inline-flex" }}
     >
       <Autocomplete
-        onChange={(event, newValue) => {
-          handleSelect(newValue.description);
-        }}
+        forcePopupIcon={false}
+        onChange={handleSelect}
         disablePortal
         options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
+        inputValue={value}
         renderInput={(params) => (
           <TextField
             onChange={(e) => {
@@ -116,6 +116,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
             placeholder="Search Google Maps"
           />
         )}
+        disableClearable
       />
       <Button onClick={handleReset}>RESET</Button>
     </div>
