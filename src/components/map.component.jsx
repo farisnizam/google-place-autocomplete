@@ -4,15 +4,16 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-
 import { useDispatch, useSelector } from "react-redux";
 import { selectSearchHistory } from "../store/search/search.selector";
 import { getSearch, resetSearch } from "../store/search/search.action";
-import { Button } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import {
+  CircularProgress,
+  Autocomplete,
+  TextField,
+  IconButton,
+} from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
@@ -118,7 +119,9 @@ const PlacesAutocomplete = ({ setSelected }) => {
         )}
         disableClearable
       />
-      <Button onClick={handleReset}>RESET</Button>
+      <IconButton onClick={handleReset}>
+        <RestartAltIcon />
+      </IconButton>
     </div>
   );
 };
