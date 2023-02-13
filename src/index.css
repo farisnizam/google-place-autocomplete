@@ -17,11 +17,28 @@ a {
 
 .places-container {
   position: absolute;
-  top: 10px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   width: 300px;
+  background: #FFF;
+  display: inline-flex;
+  border-radius: 4px;
+}
+
+.MuiInputBase-root{
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.MuiButtonBase-root{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  min-width: 20px !important;;
+  min-height: 20px !important;;
+  color: #000000 !important;;
+  box-shadow: 0 0 2px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
 }
 
 .map-container {
