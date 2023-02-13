@@ -4,28 +4,39 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-
-// import Box from "@mui/material/Box";
-// import TextField from "@mui/material/TextField";
-// import Autocomplete from "@mui/material/Autocomplete";
-// import LocationOnIcon from "@mui/icons-material/LocationOn";
-// import Grid from "@mui/material/Grid";
-// import Typography from "@mui/material/Typography";
-// import parse from "autosuggest-highlight/parse";
-
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersFetch, getSearch } from "../store/search/search.action";
+import { selectSearchHistory } from "../store/search/search.selector";
+import { getSearch, resetSearch } from "../store/search/search.action";
+import {
+  CircularProgress,
+  Autocomplete,
+  TextField,
+  IconButton,
+} from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBiapQKnqFLYe1m3gID36ZXISop2sXh52w",
     libraries: ["places"],
   });
+  const indicatorSize = 50;
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) {
+    return (
+      <CircularProgress
+        size={indicatorSize}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          marginTop: `${-indicatorSize / 2}px`,
+          marginLeft: `${-indicatorSize / 2}px`,
+        }}
+      />
+    );
+  }
+
   return <Map />;
 };
 
@@ -34,8 +45,6 @@ const Map = () => {
   const [selected, setSelected] = useState(null);
   const [zoom, setZoom] = useState(8);
   const [focus, setFocus] = useState(center);
-
-  // console.log("selected: ", selected);
 
   useEffect(() => {
     if (selected) {
@@ -71,63 +80,48 @@ const PlacesAutocomplete = ({ setSelected }) => {
   } = usePlacesAutocomplete();
 
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.myFirstReducer.users);
-  const all = useSelector((state) => state.myFirstReducer.address);
+  const searchHistory = useSelector(selectSearchHistory);
 
-  const top100Films = [
-    { description: "The Shawshank Redemption", year: 1994 },
-    { description: "The Godfather", year: 1972 },
-    { description: "The Godfather: Part II", year: 1974 },
-    { description: "The Dark Knight", year: 2008 },
-    { description: "12 Angry Men", year: 1957 },
-  ];
-
-  const [option, setOption] = useState(top100Films);
-
-  // console.log("USERS: ", users);
-  console.log("ALL: ", all);
-
-  const handleSelect = async (address) => {
-    console.log("address SINI", address);
-    dispatch(getUsersFetch());
+  const handleSelect = async (event, value) => {
+    const address = value.description;
     dispatch(getSearch(address));
-
     setValue(address, false);
-
     clearSuggestions();
-
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat, lng });
   };
 
-  console.log("data >>", data);
-  console.log("option >>", option);
+  const handleReset = () => {
+    dispatch(resetSearch());
+  };
 
-  console.log("value", value);
   return (
-    <div style={{ marginTop: "100px", background: "#FFF" }}>
+    <div
+      style={{ marginTop: "60px", background: "#FFF", display: "inline-flex" }}
+    >
       <Autocomplete
-        onChange={(event, newValue) => {
-          handleSelect(newValue.description);
-        }}
+        forcePopupIcon={false}
+        onChange={handleSelect}
         disablePortal
-        id="combo-box-demo"
-        options={data.length > 0 ? data : all}
+        options={data.length > 0 ? data : searchHistory}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
+        inputValue={value}
         renderInput={(params) => (
           <TextField
             onChange={(e) => {
-              // handleSelect(e.target.value);
               setValue(e.target.value);
             }}
             {...params}
             placeholder="Search Google Maps"
-            // label="Search Google Maps"
           />
         )}
+        disableClearable
       />
+      <IconButton onClick={handleReset}>
+        <RestartAltIcon />
+      </IconButton>
     </div>
   );
 };
