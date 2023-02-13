@@ -5,19 +5,13 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-// import Box from "@mui/material/Box";
-// import TextField from "@mui/material/TextField";
-// import Autocomplete from "@mui/material/Autocomplete";
-// import LocationOnIcon from "@mui/icons-material/LocationOn";
-// import Grid from "@mui/material/Grid";
-// import Typography from "@mui/material/Typography";
-// import parse from "autosuggest-highlight/parse";
-
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+// import AccessTimeIcon from "@mui/icons-material/";
+// import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUsersFetch, getSearch } from "../store/search/search.action";
+import { getSearch } from "../store/search/search.action";
 
 const Places = () => {
   const { isLoaded } = useLoadScript({
@@ -74,22 +68,13 @@ const PlacesAutocomplete = ({ setSelected }) => {
   const users = useSelector((state) => state.myFirstReducer.users);
   const all = useSelector((state) => state.myFirstReducer.address);
 
-  const top100Films = [
-    { description: "The Shawshank Redemption", year: 1994 },
-    { description: "The Godfather", year: 1972 },
-    { description: "The Godfather: Part II", year: 1974 },
-    { description: "The Dark Knight", year: 2008 },
-    { description: "12 Angry Men", year: 1957 },
-  ];
-
-  const [option, setOption] = useState(top100Films);
-
   // console.log("USERS: ", users);
   console.log("ALL: ", all);
 
-  const handleSelect = async (address) => {
+  const handleSelect = async (event, value) => {
+    const address = value.description;
     console.log("address SINI", address);
-    dispatch(getUsersFetch());
+    // dispatch(getUsersFetch());
     dispatch(getSearch(address));
 
     setValue(address, false);
@@ -101,32 +86,31 @@ const PlacesAutocomplete = ({ setSelected }) => {
     setSelected({ lat, lng });
   };
 
-  console.log("data >>", data);
-  console.log("option >>", option);
+  console.log('value', value)
 
-  console.log("value", value);
   return (
     <div style={{ marginTop: "100px", background: "#FFF" }}>
       <Autocomplete
-        onChange={(event, newValue) => {
-          handleSelect(newValue.description);
-        }}
+        forcePopupIcon={false}
+        onChange={handleSelect}
         disablePortal
         id="combo-box-demo"
         options={data.length > 0 ? data : all}
         getOptionLabel={(option) => (option ? option.description : "")}
         sx={{ width: 300 }}
+        inputValue={value}
         renderInput={(params) => (
           <TextField
+            // value={value}
             onChange={(e) => {
-              // handleSelect(e.target.value);
               setValue(e.target.value);
             }}
             {...params}
             placeholder="Search Google Maps"
-            // label="Search Google Maps"
           />
         )}
+
+        disableClearable
       />
     </div>
   );
